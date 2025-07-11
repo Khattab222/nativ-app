@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Carousel from "react-native-reanimated-carousel";
 
 const defaultDataWith6Colors = [
@@ -10,11 +10,11 @@ const defaultDataWith6Colors = [
 	"#F1F1F1",
 ];
 
-
+  const {width,height} = Dimensions.get('window'); 
 export default function TrendingMovies({ data }: { data: number[] }) {
 
   
-  const {width,height} = Dimensions.get('window'); 
+
 
 
 
@@ -30,9 +30,7 @@ export default function TrendingMovies({ data }: { data: number[] }) {
 				pagingEnabled={true}
 				snapEnabled={true}
 				width={width}
-				style={{
-					width: 400,
-				}}
+				// style={width*0.62}
 				mode="parallax"
 				modeConfig={{
 					parallaxScrollingScale: 0.9,
@@ -51,9 +49,10 @@ export default function TrendingMovies({ data }: { data: number[] }) {
 const renderItem = ({ rounded }: { rounded?: boolean }) =>
   ({ item, index }: { item: string; index: number }) => {
 	return (
-	  <View
+	  <TouchableWithoutFeedback
 		style={[
 		  {
+      
 			flex: 1,
 			margin: 10,
 			borderRadius: rounded ? 20 : 0,
@@ -68,8 +67,18 @@ const renderItem = ({ rounded }: { rounded?: boolean }) =>
 		  },
 		]}
 	  >
-		<Text style={{ color: '#222', fontSize: 24, fontWeight: 'bold' }}>#{index + 1}</Text>
-	  </View>
+               <Image source={require("../assets/images/poster.png")}
+               className='w-full h-full aspect-square '
+              //  style={{
+              //   width: width*0.6,
+              //   height: height*0.4,
+              //   borderColor: 'white',
+              //  }}
+               
+               
+               />
+
+</TouchableWithoutFeedback>
 	);
   };
 
