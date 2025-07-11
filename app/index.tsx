@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from "@/theme";
 import TrendingMovies from "@/components/trendingMovies";
 import { useState } from "react";
+import MovieList from "@/components/movieList";
 
 const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 
@@ -14,6 +15,8 @@ export default function Index() {
 
   const ios = Platform.OS === 'ios';
 const [trending, setTrending] = useState([1,2,3,4,5,6,7,8,9,10]);
+const [upcoming, setUpcoming] = useState([1,2,3,4,5,6,7,8,9,10]);
+const [topRated, setTopRated] = useState([1,2,3,4,5,6,7,8,9,10]);
 
 
 
@@ -30,7 +33,7 @@ const [trending, setTrending] = useState([1,2,3,4,5,6,7,8,9,10]);
          <Text style={styles && styles.text ? styles.text : {}}>M</Text>ovies
          
       </Text>
-      <TouchableOpacity>
+      <TouchableOpacity   >
     <MagnifyingGlassIcon size={30} color={"#fff"} strokeWidth={2} />
       </TouchableOpacity>
     </View>
@@ -41,7 +44,9 @@ const [trending, setTrending] = useState([1,2,3,4,5,6,7,8,9,10]);
     className="flex-1"
     >
       {/* {trending movies carousel} */}
-<TrendingMovies data={trending}/>
+<TrendingMovies title="trending"  data={trending}/>
+{/* {upcoming movies list} */}
+<MovieList title="upcoming" data={upcoming}/>
     </ScrollView>
     </View>
   
