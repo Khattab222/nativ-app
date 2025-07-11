@@ -1,0 +1,50 @@
+
+import {  Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {SafeAreaView} from 'react-native-safe-area-context';
+import { Bars3BottomLeftIcon, MagnifyingGlassIcon, } from "react-native-heroicons/outline";
+import { StatusBar } from 'expo-status-bar';
+import { styles } from "@/theme";
+import TrendingMovies from "@/components/trendingMovies";
+import { useState } from "react";
+
+const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
+
+
+export default function Index() {
+
+  const ios = Platform.OS === 'ios';
+const [trending, setTrending] = useState([1,2,3,4,5,6,7,8,9,10]);
+
+
+
+  return (
+  
+
+     <View className="flex-1 bg-neutral-800"  >
+    <SafeAreaView className={ios?"my-2":'mb-3'}>
+    <StatusBar style="light" />
+    <View className="flex-row justify-between items-center mx-4">
+      <Bars3BottomLeftIcon size={30} color={"#fff"} strokeWidth={2}  />
+      <Text className="text-white text-3xl font-bold">
+         
+         <Text style={styles && styles.text ? styles.text : {}}>M</Text>ovies
+         
+      </Text>
+      <TouchableOpacity>
+    <MagnifyingGlassIcon size={30} color={"#fff"} strokeWidth={2} />
+      </TouchableOpacity>
+    </View>
+    </SafeAreaView>
+    <ScrollView 
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={{paddingBottom: 10,}}
+    className="flex-1"
+    >
+      {/* {trending movies carousel} */}
+<TrendingMovies data={trending}/>
+    </ScrollView>
+    </View>
+  
+
+  );
+}
