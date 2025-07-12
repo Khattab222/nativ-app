@@ -1,17 +1,60 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import { styles } from '@/theme'
+import { styles } from '@/theme';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { Dimensions, Image, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
+  const {width,height} = Dimensions.get('window'); 
 export default function MovieList({title,data}:{title:string,data:number[]}) {
+  const router = useRouter();
   return (
-    <View className='mb-4 space-y-4'>
-      <View className='flex-row justify-between mx-4 items-center'>
+    <View className='mb-8 space-y-4'>
+      <View className='flex-row justify-between mx-4 mb-4 items-center'>
 
         <Text className='text-white text-xl   uppercase'>{title}</Text>
     <TouchableOpacity>
       <Text style={styles.text} className='text-lg capitalize'>see All</Text>
     </TouchableOpacity>
       </View>
+      <ScrollView 
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{ paddingHorizontal: 16 }}
+      >
+        {data.map((item, index) => (
+          <TouchableWithoutFeedback
+          key={index}
+           className='mr-4'
+           onPress={() => router.push({ pathname: '/movie/[id]', params: { id: item.toString() } })} // Using correct navigation options
+           >
+            <View
+                
+                  style={{
+                  marginHorizontal: 12,
+                  borderRadius:  8,
+                  overflow: 'hidden',
+              
+                  // elevation: 8,
+                  // backgroundColor: '#18181b',
+                  }}
+                >
+                  <Image
+                  
+                  source={require("../assets/images/poster.png")}
+                  style={{
+                    width: width * 0.45,
+                    height: height * 0.30,
+                    borderRadius:  8,
+                    // borderWidth: 2,
+                    borderColor: '#fff',
+                    resizeMode: 'cover',
+                    alignSelf: 'center',
+                  }}
+                  />
+                  <Text className='text-neutral-300 text-center'>movie name</Text>
+                </View>
+          </TouchableWithoutFeedback>
+        ))}
+      </ScrollView>
     </View>
   )
 }

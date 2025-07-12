@@ -14,7 +14,7 @@ const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 export default function Index() {
 
   const ios = Platform.OS === 'ios';
-const [trending, setTrending] = useState([1,2,3,4,5,6,7,8,9,10]);
+const [trending, setTrending] = useState(["ds","2","3","4","5","6","7","8","9","10"]);
 const [upcoming, setUpcoming] = useState([1,2,3,4,5,6,7,8,9,10]);
 const [topRated, setTopRated] = useState([1,2,3,4,5,6,7,8,9,10]);
 
@@ -47,6 +47,8 @@ const [topRated, setTopRated] = useState([1,2,3,4,5,6,7,8,9,10]);
 <TrendingMovies title="trending"  data={trending}/>
 {/* {upcoming movies list} */}
 <MovieList title="upcoming" data={upcoming}/>
+{/* {top rated movies list} */}
+<MovieList title="top rated" data={topRated}/>
     </ScrollView>
     </View>
   

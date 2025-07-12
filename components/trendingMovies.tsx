@@ -1,18 +1,11 @@
-import { useNavigation, useRouter } from 'expo-router';
+import { Link, useNavigation, useRouter } from 'expo-router';
 import { Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Carousel from "react-native-reanimated-carousel";
 
-const defaultDataWith6Colors = [
-	"#B0604D",
-	"#899F9C",
-	"#B3C680",
-	"#5C6265",
-	"#F5D399",
-	"#F1F1F1",
-];
+
 
   const {width,height} = Dimensions.get('window'); 
-export default function TrendingMovies({ title,data }: { title: string; data: number[] }) {
+export default function TrendingMovies({ title,data }: { title: string; data: string[] }) {
 
 
 const handleclick = () => {
@@ -22,10 +15,11 @@ const handleclick = () => {
   return (
 	<View className='mb-8'>
 	  <Text className='text-white text-xl mx-4 mb-5 uppercase'>{title}</Text>
+    
 
 	  <Carousel
 		autoPlayInterval={500}
-		data={defaultDataWith6Colors}
+		data={data}
 		height={height * 0.45}
 		loop={true}
 		pagingEnabled={true}
@@ -51,7 +45,7 @@ const renderItem = ({ rounded }: { rounded?: boolean }) =>
 const router = useRouter()
     const handleclick = () => {
   console.log("Clicked");
-  router.push('/movie')
+router.push({ pathname: '/movie/[id]', params: { id: item.toString() } })
 };
 
 	return (
