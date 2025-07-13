@@ -4,15 +4,20 @@ import React from 'react';
 import { Dimensions, Image, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
   const {width,height} = Dimensions.get('window'); 
-export default function MovieList({title,data}:{title:string,data:number[]}) {
+export default function MovieList({title,data,hideSeeAll}:{title:string,data:any[],hideSeeAll?:boolean}) {
   const router = useRouter();
   return (
     <View className='mb-8 space-y-4'>
       <View className='flex-row justify-between mx-4 mb-4 items-center'>
 
+
+
         <Text className='text-white text-xl   uppercase'>{title}</Text>
     <TouchableOpacity>
-      <Text style={styles.text} className='text-lg capitalize'>see All</Text>
+      {
+  hideSeeAll?null: <Text style={styles.text} className='text-lg capitalize'>see All</Text>  
+
+}
     </TouchableOpacity>
       </View>
       <ScrollView 
