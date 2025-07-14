@@ -7,12 +7,13 @@ import { styles } from "@/theme";
 import TrendingMovies from "@/components/trendingMovies";
 import { useState } from "react";
 import MovieList from "@/components/movieList";
+import { useRouter } from "expo-router";
 
 const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 
 
 export default function Index() {
-
+const router = useRouter();
   const ios = Platform.OS === 'ios';
 const [trending, setTrending] = useState(["ds","2","3","4","5","6","7","8","9","10"]);
 const [upcoming, setUpcoming] = useState([1,2,3,4,5,6,7,8,9,10]);
@@ -33,7 +34,7 @@ const [topRated, setTopRated] = useState([1,2,3,4,5,6,7,8,9,10]);
          <Text style={styles && styles.text ? styles.text : {}}>M</Text>ovies
          
       </Text>
-      <TouchableOpacity   >
+      <TouchableOpacity onPress={() => router.push("/search")}   >
     <MagnifyingGlassIcon size={30} color={"#fff"} strokeWidth={2} />
       </TouchableOpacity>
     </View>

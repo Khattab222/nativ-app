@@ -46,7 +46,7 @@ export default function MovieList({title,data,hideSeeAll}:{title:string,data:any
                   
                   source={require("../assets/images/poster.png")}
                   style={{
-                    width: width * 0.45,
+                    width: width * 0.35,
                     height: height * 0.30,
                     borderRadius:  8,
                     // borderWidth: 2,

@@ -8,7 +8,7 @@ export default function Cast({cast}: {cast: string[]}) {
   
   return (
     <View className='my-6'>
-      <Text className='text-white text-lg mx-4 '>Top Cast</Text>
+      <Text className='text-white text-lg my-4 mx-2 '>Top Cast</Text>
       <ScrollView 
       horizontal
        showsHorizontalScrollIndicator={false}
