@@ -1,3 +1,4 @@
+import Loading from '@/components/loading';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Dimensions, Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
@@ -11,7 +12,9 @@ const ios = Platform.OS === 'ios';
 
 export default function search() {
   const router = useRouter();
-  const [results, setresults] = useState([1,2,5,3,6])
+  const [results, setresults] = useState([1,2,5,4])
+  const [loading, setloading] = useState(false)
+
   return (
     <SafeAreaView className='bg-neutral-800 flex-1'>
       <View className='mx-4 mb-3 mt-3  flex-row justify-between items-center border border-neutral-500 rounded-full'>
@@ -31,19 +34,24 @@ export default function search() {
 
 
 {/* results */}
-
-    <ScrollView
+{
+  loading?<Loading/> :
+  
+    results.length>0 ?  <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingHorizontal:15}}
       >
       <Text className='text-white font-semibold ml-1 mb-4'>Results ({results.length})</Text>
   
-      <View style={{
+      <View 
+      
+      style={{
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         paddingBottom: 20
-      }}>
+      }}
+      >
         {results.map((item,i)=>{
             return (
               <TouchableWithoutFeedback 
@@ -63,14 +71,22 @@ export default function search() {
                       resizeMode: 'cover'
                     }}
                   />
-                  <Text className='text-neutral-300 ml-1 mt-1'>Movie Name</Text>
+                  <Text className='text-neutral-300 ml-1 mt-1 text-center'>Movie Name</Text>
                 </View>
           </TouchableWithoutFeedback>
         )
       })
     }
   </View>
-    </ScrollView>
+    </ScrollView>   : <View className='flex-row justify-center'>
+      <Image source={require("../assets/images/movietime.jpg")}
+      className='h-96 w-96 rounded-full'
+      />
+    </View>
+
+}
+
+  
 
     </SafeAreaView>
   )

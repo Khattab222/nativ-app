@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '@/components/cast';
 import MovieList from '@/components/movieList';
+import Loading from '@/components/loading';
 
 const {width,height} = Dimensions.get("window")
 const ios = Platform.OS === 'ios';
@@ -15,6 +16,8 @@ export default function MovieDetails() {
 const topMargin=ios?"":"mt-3"
 const { id } = useLocalSearchParams()
 const [isfavourite, setIsfavourite] = useState(false)
+const [loading, setloading] = useState(false)
+
 const [similarmovies, setsimilarmovies] = useState(["hggj","hghgh","hghgyh"])
 const [cast, setcast] = useState(["aahmed","mohamed","ali","sara","nada","hassan","yasser","omar","khaled","ahmed"]);
 const  router= useRouter();
@@ -37,7 +40,9 @@ useEffect(() => {
       </TouchableOpacity>
     
     </SafeAreaView>
-    <View>
+    {
+      loading?<Loading/> :<>
+      <View>
       <Image
       source={require('../../assets/images/poster1.png')}
       style={{width,height:height*0.55}}
@@ -50,7 +55,7 @@ useEffect(() => {
       className=' absolute bottom-0 '
       />
     </View>
-  {/* movie details */}
+      {/* movie details */}
   <View style={{marginTop:-height*0.15}} className='px-4 flex items-center gap-4 space-x-10 justify-center'>
     <Text className='text-white text-3xl  tracking-wider font-bold'>{'Movie Title'}</Text>
     <Text className='text-neutral-400'>Release Date: 2023-01-01</Text>
@@ -72,6 +77,11 @@ useEffect(() => {
   <Cast cast={cast}/>
   {/* similar movies */}
   <MovieList title='similar movies' hideSeeAll={true} data={similarmovies}/>
+      
+      </> 
+    }
+    
+
 </ScrollView>
   )
 }

@@ -1,3 +1,4 @@
+import Loading from '@/components/loading';
 import MovieList from '@/components/movieList';
 import { styles } from '@/theme';
 import { useRouter } from 'expo-router';
@@ -16,6 +17,8 @@ export default function ActorDetails() {
 
   const [isfavourite, setIsfavourite] = useState(false)
   const [personMovies, setpersonMovies] = useState(["ssd","sdsdsd","sdsdsasa"])
+const [loading, setloading] = useState(false)
+
   
   const router = useRouter();
   return (
@@ -35,7 +38,8 @@ export default function ActorDetails() {
     </SafeAreaView>
 
     {/* person details */}
-    <View>
+    {
+      loading?<Loading/> :   <View>
       <View className='flex-row justify-center'>
         <View 
           className='items-center  rounded-full overflow-hidden h-72 w-72'
@@ -120,6 +124,8 @@ export default function ActorDetails() {
 <MovieList title='person' data={personMovies} hideSeeAll={true}/>
 
     </View>
+    }
+  
     </ScrollView>
   )
 }

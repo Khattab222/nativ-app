@@ -5,9 +5,11 @@ import { Bars3BottomLeftIcon, MagnifyingGlassIcon, } from "react-native-heroicon
 import { StatusBar } from 'expo-status-bar';
 import { styles } from "@/theme";
 import TrendingMovies from "@/components/trendingMovies";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MovieList from "@/components/movieList";
 import { useRouter } from "expo-router";
+import Loading from "@/components/loading";
+import { FetchTrendingMovies } from "@/api/moviedb";
 
 const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 
@@ -18,9 +20,23 @@ const router = useRouter();
 const [trending, setTrending] = useState(["ds","2","3","4","5","6","7","8","9","10"]);
 const [upcoming, setUpcoming] = useState([1,2,3,4,5,6,7,8,9,10]);
 const [topRated, setTopRated] = useState([1,2,3,4,5,6,7,8,9,10]);
+const [loading, setloading] = useState(false)
 
+useEffect(() => {
+  
+getTrendingMovies()
+}, [])
 
+const getTrendingMovies = async()=>{
+  setloading(true)
+  const data = await FetchTrendingMovies()
+  console.log(data.results)
+  if(data.results && data.results.length>0){
+    setTrending(data.results)
+}
+  setloading(false)
 
+}
   return (
   
 
@@ -39,7 +55,9 @@ const [topRated, setTopRated] = useState([1,2,3,4,5,6,7,8,9,10]);
       </TouchableOpacity>
     </View>
     </SafeAreaView>
-    <ScrollView 
+
+    {
+      loading? <Loading/>:  <ScrollView 
     showsVerticalScrollIndicator={false}
     contentContainerStyle={{paddingBottom: 10,}}
     className="flex-1"
@@ -51,6 +69,8 @@ const [topRated, setTopRated] = useState([1,2,3,4,5,6,7,8,9,10]);
 {/* {top rated movies list} */}
 <MovieList title="top rated" data={topRated}/>
     </ScrollView>
+    }
+  
     </View>
   
 
