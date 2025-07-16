@@ -1,10 +1,12 @@
+import { baseImageUrl } from '@/api/moviedb';
 import { styles } from '@/theme';
+import { Movie } from '@/types';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Dimensions, Image, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
   const {width,height} = Dimensions.get('window'); 
-export default function MovieList({title,data,hideSeeAll}:{title:string,data:any[],hideSeeAll?:boolean}) {
+export default function MovieList({title,data,hideSeeAll}:{title:string,data:Movie[],hideSeeAll?:boolean}) {
   const router = useRouter();
   return (
     <View className='mb-8 space-y-4'>
@@ -29,7 +31,7 @@ export default function MovieList({title,data,hideSeeAll}:{title:string,data:any
           <TouchableWithoutFeedback
           key={index}
            className='mr-4'
-           onPress={() => router.push({ pathname: '/movie/[id]', params: { id: item.toString() } })} // Using correct navigation options
+           onPress={() => router.push({ pathname: '/movie/[id]', params: { id: item.id } })} // Using correct navigation options
            >
             <View
                 
@@ -44,7 +46,8 @@ export default function MovieList({title,data,hideSeeAll}:{title:string,data:any
                 >
                   <Image
                   
-                  source={require("../assets/images/poster.png")}
+                      // source={{ uri: `${baseImageUrl}${item.poster_path}` }}
+                      source={{ uri: `https://image.tmdb.org/t/p/w185${item.poster_path}` }}
                   style={{
                     width: width * 0.35,
                     height: height * 0.30,
@@ -55,7 +58,7 @@ export default function MovieList({title,data,hideSeeAll}:{title:string,data:any
                     alignSelf: 'center',
                   }}
                   />
-                  <Text className='text-neutral-300 text-center'>movie name</Text>
+                  <Text className='text-neutral-300 text-center'>{item.title}</Text>
                 </View>
           </TouchableWithoutFeedback>
         ))}

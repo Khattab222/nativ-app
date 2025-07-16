@@ -9,13 +9,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '@/components/cast';
 import MovieList from '@/components/movieList';
 import Loading from '@/components/loading';
+import { baseImageUrl, FetchMovieDetails } from '@/api/moviedb';
+import { IMovieDetails  } from '@/types';
 
 const {width,height} = Dimensions.get("window")
 const ios = Platform.OS === 'ios';
+
 export default function MovieDetails() {
+
+
 const topMargin=ios?"":"mt-3"
 const { id } = useLocalSearchParams()
 const [isfavourite, setIsfavourite] = useState(false)
+const [movie, setMovie] = useState<IMovieDetails|null>(null)
 const [loading, setloading] = useState(false)
 
 const [similarmovies, setsimilarmovies] = useState(["hggj","hghgh","hghgyh"])
@@ -23,8 +29,23 @@ const [cast, setcast] = useState(["aahmed","mohamed","ali","sara","nada","hassan
 const  router= useRouter();
 useEffect(() => {
   // fetch movie details
+  console.log(id)
+  getMovieDetails(id as string);
 }, [id])
 
+
+
+
+  
+const getMovieDetails =async (id:string)=>{
+  setloading(true)
+const data = await FetchMovieDetails(id)
+
+  if(data){
+  setMovie(data)
+}
+setloading(false)
+}
   return (
    <ScrollView 
    contentContainerStyle={{paddingBottom: 10}}
@@ -44,7 +65,10 @@ useEffect(() => {
       loading?<Loading/> :<>
       <View>
       <Image
-      source={require('../../assets/images/poster1.png')}
+      // source={{ uri: `${baseImageUrl}${movie?.poster_path}` }}
+                            source={{ uri: `https://image.tmdb.org/t/p/w500${movie?.backdrop_path}` }}
+
+    
       style={{width,height:height*0.55}}
       />
       <LinearGradient 
@@ -57,26 +81,27 @@ useEffect(() => {
     </View>
       {/* movie details */}
   <View style={{marginTop:-height*0.15}} className='px-4 flex items-center gap-4 space-x-10 justify-center'>
-    <Text className='text-white text-3xl  tracking-wider font-bold'>{'Movie Title'}</Text>
-    <Text className='text-neutral-400'>Release Date: 2023-01-01</Text>
-    <Text className='text-neutral-400'>Rating: 8.5/10</Text>
+    <Text className='text-white text-3xl  tracking-wider font-bold'>{movie?.title}</Text>
+    <Text className='text-neutral-400'>Release Date: {movie?.release_date}</Text>
+    <Text className='text-neutral-400'>Rating: {movie?.vote_average.toFixed(1)}/10</Text>
 
     {/* genres */}
-    <View className='flex-row items-center '>
-      <Text className='text-neutral-300 text-sm'>Action - </Text>
-      <Text className='text-neutral-300 text-sm'>Adventure - </Text>
-      <Text className='text-neutral-300 text-sm'>Sci-Fi </Text>
+    <View className='flex-row items-center gap-4'>
+    {
+      movie?.genres && movie.genres.length && movie.genres.map((item,i)=>  <Text key={i} className='text-neutral-300 text-sm'>{item.name} </Text>)
+    }
+    
     </View>
   </View>
 
   {/* description */}
   <View className='px-4 mt-4'>
-    <Text className='text-neutral-300 text-base mx-4 tracking-wider text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
+    <Text className='text-neutral-300 text-base mx-4 tracking-wider text-justify'>{movie?.overview}</Text>
   </View>
   {/* cast */}
   <Cast cast={cast}/>
   {/* similar movies */}
-  <MovieList title='similar movies' hideSeeAll={true} data={similarmovies}/>
+  {/* <MovieList title='similar movies' hideSeeAll={true} data={similarmovies}/> */}
       
       </> 
     }

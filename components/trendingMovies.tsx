@@ -1,3 +1,5 @@
+import { baseImageUrl } from '@/api/moviedb';
+import { Movie } from '@/types';
 import { Link, useNavigation, useRouter } from 'expo-router';
 import { Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Carousel from "react-native-reanimated-carousel";
@@ -5,7 +7,7 @@ import Carousel from "react-native-reanimated-carousel";
 
 
   const {width,height} = Dimensions.get('window'); 
-export default function TrendingMovies({ title,data }: { title: string; data: string[] }) {
+export default function TrendingMovies({ title,data }: { title: string; data: Movie[] }) {
 
 
 const handleclick = () => {
@@ -41,11 +43,11 @@ const handleclick = () => {
   )
 }
 const renderItem = ({ rounded }: { rounded?: boolean }) =>
-  ({ item, index }: { item: string; index: number }) => {
+  ({ item, index }: { item: Movie; index: number }) => {
 const router = useRouter()
     const handleclick = () => {
-  console.log("Clicked");
-router.push({ pathname: '/movie/[id]', params: { id: item.toString() } })
+  
+router.push({ pathname: '/movie/[id]', params: { id: item.id} })
 };
 
 	return (
@@ -65,8 +67,8 @@ router.push({ pathname: '/movie/[id]', params: { id: item.toString() } })
 		  }}
 		>
 		  <Image
-      
-			source={require("../assets/images/poster1.png")}
+
+			source={{ uri: `${baseImageUrl}${item.poster_path}` }}
 			style={{
 			  width: width * 0.68,
 			  height: height * 0.42,

@@ -1,8 +1,9 @@
+import { FetchMovieDetails } from '@/api/moviedb';
 import Loading from '@/components/loading';
 import MovieList from '@/components/movieList';
 import { styles } from '@/theme';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { Dimensions, Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import { HeartIcon } from 'react-native-heroicons/solid';
@@ -14,13 +15,17 @@ const ios = Platform.OS === 'ios';
 
 export default function ActorDetails() {
   const verticalMargin=ios?"":"my-3"
-
+ const { id } = useLocalSearchParams();
+ console.log({id})
   const [isfavourite, setIsfavourite] = useState(false)
   const [personMovies, setpersonMovies] = useState(["ssd","sdsdsd","sdsdsasa"])
 const [loading, setloading] = useState(false)
 
   
   const router = useRouter();
+
+
+
   return (
     <ScrollView  className='flex-1 bg-neutral-900' 
     contentContainerStyle={{paddingBottom: 20}}
