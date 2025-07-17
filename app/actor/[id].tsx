@@ -4,9 +4,10 @@ import Loading from '@/components/loading';
 import MovieList from '@/components/movieList';
 import { styles } from '@/theme';
 import { IActorDetails } from '@/types';
+import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Dimensions, Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions,  Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import { HeartIcon } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -105,10 +106,13 @@ setloading(false)
           <Image
             source={{ uri: `https://image.tmdb.org/t/p/w185${actor?.profile_path}` }}
             style={{
-              height: height * 0.43,
-              width: width * 0.74,
-              borderRadius: (width * 0.74) / 2,
-            }} />
+              height: "100%",
+              width:" 100%",
+              
+                    alignSelf: 'center',
+              // borderRadius: (width * 0.74) / 2,
+            }}
+             />
         </View>
       
       </View>

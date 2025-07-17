@@ -16,6 +16,7 @@ const topRatedEndPoints = `${apiBaseUrl}/movie/top_rated?api_key=${ApiKey}`;
 const movieDetailsEndPoint = `${apiBaseUrl}/movie/movie_id?api_key=${ApiKey}`;
 const movieCreditsEndPoint = `${apiBaseUrl}/movie/movie_id/credits?api_key=${ApiKey}`;
 const movieSimilarMovies =`${apiBaseUrl}/movie/movie_id/similar?api_key=${ApiKey}`
+const searchMoviesEndPoints = `${apiBaseUrl}/search/movie?api_key=${ApiKey}`
 
 
 
@@ -53,6 +54,9 @@ export const FetchMovieCredits = async (id: string): Promise<MovieCredits> => {
 };
 export const FetchSimilarMovies = async (id: string) => {
   return apiCall({ endpoint: movieSimilarMovies.replace("movie_id", id) });
+};
+export const searchMovies = async (params:any) => {
+  return apiCall({ endpoint: searchMoviesEndPoints,param:params });
 };
 
 

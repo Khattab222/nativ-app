@@ -85,13 +85,13 @@ setloading(false)
     </SafeAreaView>
     {
       loading?<Loading/> :<>
-      <View>
+      <View className=''>
       <Image
       // source={{ uri: `${baseImageUrl}${movie?.poster_path}` }}
-                            source={{ uri: `https://image.tmdb.org/t/p/w500${movie?.backdrop_path}` }}
+                            source={{ uri: `https://image.tmdb.org/t/p/w500/${movie?.poster_path}` }}
 
     
-      style={{width,height:height*0.55}}
+      style={{width,height:height*0.60}}
       />
       <LinearGradient 
       colors={['transparent', 'rgba(23,23,23,0.8)','rgba(23,23,23,1)']}
@@ -102,7 +102,7 @@ setloading(false)
       />
     </View>
       {/* movie details */}
-  <View style={{marginTop:-height*0.15}} className='px-4 flex items-center gap-4 space-x-10 justify-center'>
+  <View style={{marginTop:-height*0.15}} className='px-4 flex items-center gap-4 space-x-10 justify-center '>
     <Text className='text-white text-3xl  tracking-wider font-bold'>{movie?.title}</Text>
     <Text className='text-neutral-400'>Release Date: {movie?.release_date}</Text>
     <Text className='text-neutral-400'>Rating: {movie?.vote_average.toFixed(1)}/10</Text>

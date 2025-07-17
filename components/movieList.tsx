@@ -58,7 +58,7 @@ export default function MovieList({title,data,hideSeeAll}:{title:string,data:Mov
                     alignSelf: 'center',
                   }}
                   />
-                  <Text className='text-neutral-300 text-center'>{item.title}</Text>
+                  <Text className='text-neutral-300 text-center'>{item.title.slice(0,14)}</Text>
                 </View>
           </TouchableWithoutFeedback>
         ))}
