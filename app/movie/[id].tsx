@@ -9,8 +9,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '@/components/cast';
 import MovieList from '@/components/movieList';
 import Loading from '@/components/loading';
-import { baseImageUrl, FetchMovieDetails } from '@/api/moviedb';
-import { IMovieDetails  } from '@/types';
+import { baseImageUrl, FetchMovieCredits, FetchMovieDetails, FetchSimilarMovies } from '@/api/moviedb';
+import { ICast, IMovieDetails  } from '@/types';
 
 const {width,height} = Dimensions.get("window")
 const ios = Platform.OS === 'ios';
@@ -24,13 +24,15 @@ const [isfavourite, setIsfavourite] = useState(false)
 const [movie, setMovie] = useState<IMovieDetails|null>(null)
 const [loading, setloading] = useState(false)
 
-const [similarmovies, setsimilarmovies] = useState(["hggj","hghgh","hghgyh"])
-const [cast, setcast] = useState(["aahmed","mohamed","ali","sara","nada","hassan","yasser","omar","khaled","ahmed"]);
+const [similarmovies, setsimilarmovies] = useState([])
+const [cast, setcast] = useState<ICast[]>([]);
 const  router= useRouter();
 useEffect(() => {
-  // fetch movie details
-  console.log(id)
+
+    setloading(true)
   getMovieDetails(id as string);
+  getMovieCredits(id as string);
+  getSimilarMovies(id as string);
 }, [id])
 
 
@@ -38,11 +40,31 @@ useEffect(() => {
 
   
 const getMovieDetails =async (id:string)=>{
-  setloading(true)
+
 const data = await FetchMovieDetails(id)
 
   if(data){
   setMovie(data)
+}
+setloading(false)
+}
+const getMovieCredits =async (id:string)=>{
+
+const data = await FetchMovieCredits(id)
+
+  if(data){
+  
+  setcast(data.cast)
+}
+setloading(false)
+}
+const getSimilarMovies =async (id:string)=>{
+
+const data = await FetchSimilarMovies(id)
+
+  if(data.results && data.results.length>0){
+setsimilarmovies(data.results)
+  // setcast(data.cast)
 }
 setloading(false)
 }
@@ -101,7 +123,7 @@ setloading(false)
   {/* cast */}
   <Cast cast={cast}/>
   {/* similar movies */}
-  {/* <MovieList title='similar movies' hideSeeAll={true} data={similarmovies}/> */}
+  <MovieList title='similar movies' hideSeeAll={true} data={similarmovies}/>
       
       </> 
     }

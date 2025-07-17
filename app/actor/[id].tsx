@@ -1,7 +1,9 @@
-import { FetchMovieDetails } from '@/api/moviedb';
+
+import { FetchActorDetails, FetchActorMovies } from '@/api/actor';
 import Loading from '@/components/loading';
 import MovieList from '@/components/movieList';
 import { styles } from '@/theme';
+import { IActorDetails } from '@/types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Dimensions, Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
@@ -16,16 +18,45 @@ const ios = Platform.OS === 'ios';
 export default function ActorDetails() {
   const verticalMargin=ios?"":"my-3"
  const { id } = useLocalSearchParams();
- console.log({id})
+
   const [isfavourite, setIsfavourite] = useState(false)
-  const [personMovies, setpersonMovies] = useState(["ssd","sdsdsd","sdsdsasa"])
+  const [actor, setactor] = useState<IActorDetails|null>(null)
+  const [personMovies, setpersonMovies] = useState([])
 const [loading, setloading] = useState(false)
 
   
   const router = useRouter();
 
+useEffect(() => {
+  
+setloading(true)
+getActorDetails(id as string)
+getActorMovies(id as string)
+}, [id])
+
+const getActorDetails =async (id:string)=>{
+
+const data = await FetchActorDetails(id)
+
+  if(data){
+setactor(data)
+  // setcast(data.cast)
+}
+setloading(false)
+}
 
 
+
+const getActorMovies =async (id:string)=>{
+
+const data = await FetchActorMovies(id)
+
+  if(data && data.cast){
+setpersonMovies(data.cast)
+
+}
+setloading(false)
+}
   return (
     <ScrollView  className='flex-1 bg-neutral-900' 
     contentContainerStyle={{paddingBottom: 20}}
@@ -72,7 +103,7 @@ const [loading, setloading] = useState(false)
             })
           }}>
           <Image
-            source={require("../../assets/images/cast.jpg")}
+            source={{ uri: `https://image.tmdb.org/t/p/w185${actor?.profile_path}` }}
             style={{
               height: height * 0.43,
               width: width * 0.74,
@@ -84,10 +115,10 @@ const [loading, setloading] = useState(false)
 
             <View className='mt-8'>
               <Text className='text-3xl text-white font-bold text-center'>
-                Actor Name
+              {actor?.name}
               </Text>
               <Text className='text-base text-neutral-500 font-bold text-center'>
-                london , united kingdom
+              {actor?.place_of_birth}
               </Text>
 
 
@@ -95,34 +126,26 @@ const [loading, setloading] = useState(false)
             <View className='mx-3 rounded-full mt-6 flex-row p-2 justify-between items-center bg-neutral-700'>
             <View className='border-r-2 border-r-neutral-400 px-4 items-center'>
               <Text className='text-white font-semibold '>Gender</Text>
-              <Text className='text-neutral-300 text-sm '>Male</Text>
+              <Text className='text-neutral-300 text-sm '>{actor?.gender === 1?"female":"male"}</Text>
             </View>
             <View className='border-r-2 border-r-neutral-400 px-4 items-center'>
               <Text className='text-white font-semibold '>Birthday</Text>
-              <Text className='text-neutral-300 text-sm '>1648-5-2</Text>
+              <Text className='text-neutral-300 text-sm '>{actor?.birthday}</Text>
             </View>
             <View className='border-r-2 border-r-neutral-400 px-4 items-center'>
               <Text className='text-white font-semibold '>know for</Text>
-              <Text className='text-neutral-300 text-sm '>Action</Text>
+              <Text className='text-neutral-300 text-sm '>{actor?.known_for_department}</Text>
             </View>
             <View className=' px-4 items-center'>
               <Text className='text-white font-semibold '>Popularity</Text>
-              <Text className='text-neutral-300 text-sm '>High</Text>
+              <Text className='text-neutral-300 text-sm '>{actor?.popularity.toFixed(2)}</Text>
             </View>
             </View>
 
 
             <View className='my-6 mx-4 space-y-2'>
               <Text className='text-white text-lg'>Biography</Text>
-              <Text className='text-neutral-300 tracking-wide text-justify'> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis nemo nam atque, doloremque rem asperiores, temporibus architecto, quasi illum ipsum sapiente minima ab? Amet harum quisquam doloremque accusamus, aliquid officia.
-              Quae, eos! Tempore amet nam perferendis delectus explicabo quaerat esse omnis suscipit, non veritatis. Eius laborum maxime alias veritatis suscipit repellendus ullam sit officiis exercitationem. Necessitatibus nihil possimus ad porro?
-              Exercitationem, repellat assumenda unde quis iusto voluptas molestiae. Doloremque distinctio eligeecuvel assumenda corrupti, iusto aperiam mollitia fugiat dolores vitae.
-              Animi, expedita iure. Perspiciatis, dolores blanditiis tenetur est, quasi reiciendis enim rerum praesentium, repellendus veniam itaque facilis officiis! Optio nulla nisi enim consequuntur. Saepe, voluptas quibusdam? Error deserunt iusto numquam?
-              Rerum natus praesentium qui similique fugiat nostrum mollitia eius illum at sit molestias vitae, obcaecati architecto omnis corporis quod aliquid suscipit molestiae ipsam voluptates veritatis atque magnam? Voluptatibus, dolorem harum.
-              Explicabo ducimus minima ipsam, quo quos, repellat qui amet unde quam asperiores recusandae eius neque enim assumenda. Esse doloremque distinctio doloribus ad dignissimos? Aperiam dolores ex sit perferendis placeat nostrum!
-              Assumenda vitae adipisci neque tenetur numquam autem porro in, harum beatae? Voluptatem tempore doloribus ducimus modi facere, molestiae iure minima dolores deserunt at, vero temporibus? Earum enim temporibus laudantium aliquam.
-              Incidunt nemo voluptas eligendi obcaecati laboriosam ratione aspernatur beatae quia, explicabo tempore,  magni perspiciatis iure?
-              Nesciunt dicta ullam at ipsa doloremque velit aperiam excepturi optio maxime eaque. Labore vollo! In labore alias, id vel omnis ex maiores.</Text>
+              <Text className='text-neutral-300 tracking-wide text-justify'> {actor?.biography}</Text>
             </View>
 
 {/* movies */}

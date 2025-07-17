@@ -81,3 +81,56 @@ export interface IMovieDetails {
     vote_average: number;
     vote_count: number;
 }
+
+export interface ICast {
+    adult: boolean;
+    cast_id: number;
+    character: string;
+    credit_id: string;
+    gender: number;
+    id: number;
+    known_for_department: string;
+    name: string;
+    order: number;
+    original_name: string;
+    popularity: number;
+    profile_path: string | null;
+}
+
+export interface Crew {
+    adult: boolean;
+    credit_id: string;
+    department: string;
+    gender: number;
+    id: number;
+    job: string;
+    known_for_department: string;
+    name: string;
+    original_name: string;
+    popularity: number;
+    profile_path: string | null;
+}
+
+export interface MovieCredits {
+    id: number;
+    cast: ICast[];
+    crew: Crew[];
+}
+
+
+export interface IActorDetails {
+    adult: boolean;
+    also_known_as: string[];
+    biography: string;
+    birthday: string;
+    deathday: string | null;
+    gender: number;
+    homepage: string | null;
+    id: number;
+    imdb_id: string;
+    known_for_department: string;
+    name: string;
+    place_of_birth: string;
+    popularity: number;
+    profile_path: string;
+}

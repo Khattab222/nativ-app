@@ -1,4 +1,4 @@
-import { IMovieDetails } from '@/types';
+import {  IMovieDetails, MovieCredits } from '@/types';
 import axios from "axios";
 
 export const ApiKey = "5a85e1a3818a5372ba0f9e7742424f0f";
@@ -11,7 +11,13 @@ export const image185 = (path: string) => (path ? `${baseImageUrl}/w185${path}` 
 const trendMoviesEndPoint = `${apiBaseUrl}/trending/movie/day?api_key=${ApiKey}`;
 const upCommingEndPoints = `${apiBaseUrl}/movie/upcoming?api_key=${ApiKey}`;
 const topRatedEndPoints = `${apiBaseUrl}/movie/top_rated?api_key=${ApiKey}`;
+
+// dynamic endpoints
 const movieDetailsEndPoint = `${apiBaseUrl}/movie/movie_id?api_key=${ApiKey}`;
+const movieCreditsEndPoint = `${apiBaseUrl}/movie/movie_id/credits?api_key=${ApiKey}`;
+const movieSimilarMovies =`${apiBaseUrl}/movie/movie_id/similar?api_key=${ApiKey}`
+
+
 
 const apiCall = async ({ endpoint, param }: { endpoint: any; param?: any }) => {
   const option = {
@@ -42,6 +48,14 @@ export const FetchTopRatedMovies = () => {
 export const FetchMovieDetails = async (id: string): Promise<IMovieDetails> => {
   return apiCall({ endpoint: movieDetailsEndPoint.replace("movie_id", id) });
 };
+export const FetchMovieCredits = async (id: string): Promise<MovieCredits> => {
+  return apiCall({ endpoint: movieCreditsEndPoint.replace("movie_id", id) });
+};
+export const FetchSimilarMovies = async (id: string) => {
+  return apiCall({ endpoint: movieSimilarMovies.replace("movie_id", id) });
+};
+
+
 
 const sdsdsdsd = {
   adult: false,
